@@ -1,0 +1,25 @@
+<html>
+   <head>
+      <title>Pistas</title>      
+   </head>
+   <body>
+      <table>
+         <thead>
+           <tr>
+		     <th>ID</th>
+		     <th>Nombre</th>
+		     <th>URI</th>
+		  </tr>
+         </thead>
+         <tbody>            
+            #foreach( $pistaInfoBreve in $pistasXML.pistaInfoBreve)
+            <tr>
+               <td>$pistaInfoBreve.idPista</td>
+               <td>$pistaInfoBreve.nombre</td>
+               <td><a href="$pistaInfoBreve.uri.href">$pistaInfoBreve.uri.title</a></td>
+            </tr>
+            #end
+         </tbody>
+      </table>
+   </body>
+</html>

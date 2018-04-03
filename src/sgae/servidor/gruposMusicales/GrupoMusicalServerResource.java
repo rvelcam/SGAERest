@@ -1,13 +1,13 @@
 package sgae.servidor.gruposMusicales;
 
 import java.text.ParseException;
-import java.util.List;
 
 import org.restlet.data.Form;
 import org.restlet.data.Status;
 import org.restlet.ext.jaxb.JaxbRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
+import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
@@ -16,10 +16,10 @@ import org.restlet.resource.ServerResource;
 import sgae.nucleo.gruposMusicales.ControladorGruposMusicales;
 import sgae.nucleo.gruposMusicales.ExcepcionGruposMusicales;
 import sgae.nucleo.gruposMusicales.GrupoMusical;
-import sgae.nucleo.personas.Persona;
+import sgae.nucleo.personas.ExcepcionPersonas;
 import sgae.servidor.aplicacion.SgaeServerApplication;
-import sgae.util.generated.PersonaInfoBreve;
-import sgae.util.generated.PersonaXML;
+import sgae.util.generated.GrupoMusicalXML;
+
 
 
 public class GrupoMusicalServerResource extends ServerResource{
@@ -43,31 +43,21 @@ public class GrupoMusicalServerResource extends ServerResource{
 		}
 	}
 	
-	/*@Get("xml")
+	@Get("xml")
 	public Representation representacionXML(){
 		GrupoMusicalXML grupoXml = new GrupoMusicalXML();
 		try {
-			GrupoMusical grupoMusical = controladorGruposMusicales.recuperarGrupoMusical(this.CIF);
-			List<Persona> miembrosActuales = grupoMusical.recuperarMiembros();
-			List<Persona> miembrosAnteriores = grupoMusical.recuperarMiembrosAnteriores();
+			GrupoMusical grupoMusical = controladorGruposMusicales.recuperarGrupoMusical(this.CIF);			
 			grupoXml.setCIF(grupoMusical.getCif()) ;
 			grupoXml.setNombre(grupoMusical.getNombre());
-			grupoXml.setFechaCreacion (grupoMusical.getFechaCreacion());
-			for (Persona miembro:miembrosActuales) {
-				MiembroXML miembroXml = new miembroXml();
-				PersonaInfoBreve personaInfo = new PersonaInfoBreve();
-				personaInfo.setApellidos(miembro.getApellidos());
-				miembroXml.setEstado("Miembro actual");
-				miembroXml.setDatos (personaInfo);
-				grupoXml.getMiembroXML().add(miembroXML);
-			}
+			grupoXml.setFechaCreacion (grupoMusical.getFechaCreacion());			
 			JaxbRepresentation<GrupoMusicalXML> result = new JaxbRepresentation<GrupoMusicalXML>(grupoXml);
 			result.setFormattedOutput(true);
 			return result;
 		}catch (ExcepcionGruposMusicales e){
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 		}
-	}*/
+	}
 	
 	@Put("form")
 	public void guardarModificarGrupoMusical(Representation representacion){
@@ -91,6 +81,16 @@ public class GrupoMusicalServerResource extends ServerResource{
 		}
 	}
 	
-	
-	
+	@Delete
+	public void eliminarMiembroGrupo(){			
+		try{
+			String dni="";
+			this.controladorGruposMusicales.eliminarMiembro(this.CIF, dni);
+			setStatus(Status.SUCCESS_NO_CONTENT);
+		}catch (ExcepcionPersonas e) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
+		}catch(ExcepcionGruposMusicales err) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		} 
+	}	
 }

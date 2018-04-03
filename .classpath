@@ -5,5 +5,9 @@
 	<classpathentry kind="lib" path="D:/raul/eclipse/workspace/SGAERest/restlet-jse-2.3.12/lib/org.restlet.jar"/>
 	<classpathentry kind="lib" path="D:/raul/eclipse/workspace/SGAERest/restlet-jse-2.3.12/lib/org.restlet.ext.jaxb.jar"/>
 	<classpathentry kind="lib" path="D:/raul/eclipse/workspace/SGAERest/restlet-jse-2.3.12/lib/org.restlet.ext.xml.jar"/>
+	<classpathentry kind="lib" path="D:/raul/eclipse/workspace/SGAERest/restlet-jse-2.3.12/lib/org.restlet.ext.velocity.jar"/>
+	<classpathentry kind="lib" path="D:/raul/eclipse/workspace/SGAERest/restlet-jse-2.3.12/lib/org.apache.velocity_2.0/org.apache.velocity.jar"/>
+	<classpathentry kind="lib" path="D:/raul/eclipse/workspace/SGAERest/restlet-jse-2.3.12/lib/org.slf4j_1.7/org.slf4j.jar"/>
+	<classpathentry kind="lib" path="D:/raul/eclipse/workspace/SGAERest/restlet-jse-2.3.12/lib/org.apache.commons.lang_3.6/org.apache.commons.lang.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

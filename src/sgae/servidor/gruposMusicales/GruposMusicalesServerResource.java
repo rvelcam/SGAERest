@@ -9,11 +9,11 @@ import org.restlet.resource.ServerResource;
 
 import sgae.nucleo.gruposMusicales.ControladorGruposMusicales;
 import sgae.nucleo.gruposMusicales.GrupoMusical;
-import sgae.nucleo.personas.Persona;
 import sgae.servidor.aplicacion.SgaeServerApplication;
+import sgae.util.generated.GrupoMusicalInfoBreve;
+import sgae.util.generated.GruposMusicalesXML;
 import sgae.util.generated.Link;
-import sgae.util.generated.PersonaInfoBreve;
-import sgae.util.generated.PersonasXML;
+
 
 public class GruposMusicalesServerResource extends ServerResource{
 	
@@ -33,7 +33,7 @@ public class GruposMusicalesServerResource extends ServerResource{
 		}
 		return new StringRepresentation(result.toString());		
 	}
-	/*@Get("xml")
+	@Get("xml")
 	public Representation representacionXML(){
 		GruposMusicalesXML gruposXml = new GruposMusicalesXML();
 		try{
@@ -47,14 +47,14 @@ public class GruposMusicalesServerResource extends ServerResource{
 				grupoInfoBreve.setUri(link);
 				grupoInfoBreve.setCIF(grupo.getCif());
 				grupoInfoBreve.setNombre(grupo.getNombre());				
-				grupoInfoBreve.getGrupoMusicalInfoBreve().add(grupoInfoBreve);
+				gruposXml.getGrupoMusicalInfoBreve().add(grupoInfoBreve);
 			}
-			JaxbRepresentation<GruposMusicalesXML> result = new JaxbRepresentation<PersonasXML>(GruposMusicalesXML);
+			JaxbRepresentation<GruposMusicalesXML> result = new JaxbRepresentation<GruposMusicalesXML>(gruposXml);
 			result.setFormattedOutput(true);
 			return result;
 		}catch(Exception e){
 			System.out.println("EXCEPCION: "+e.toString());
 			return null;
 		}
-	}*/
+	}
 }

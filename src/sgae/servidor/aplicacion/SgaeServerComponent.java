@@ -13,9 +13,11 @@ public class SgaeServerComponent extends Component{
 		setOwner("ptpdx04");
 		setAuthor("ptpdx04");
 		setDescription("Class Component for Sgae App");
-		Server server = new Server(new Context(), Protocol.HTTP, 8111);
+		Server server = new Server(new Context(), Protocol.HTTP, 8112);
 		server.getContext().getParameters().set("tracing", "true");
 		getServers().add(server);
+		//protocolo CLAP para respuestas HTML
+        getClients().add(Protocol.CLAP);
 		VirtualHost host = getDefaultHost();
 		host.attachDefault(new SgaeServerApplication());
 	}

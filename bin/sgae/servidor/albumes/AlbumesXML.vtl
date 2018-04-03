@@ -1,0 +1,25 @@
+<html>
+   <head>
+      <title>Albumes</title>      
+   </head>
+   <body>
+      <table>
+         <thead>
+           <tr>
+		     <th>ID</th>
+		     <th>Titulo</th>
+		     <th>URI</th>
+		  </tr>
+         </thead>
+         <tbody>            
+            #foreach( $albumInfoBreve in $albumesXML.albumInfoBreve)
+            <tr>
+               <td>$albumInfoBreve.idAlbum</td>
+               <td>$albumInfoBreve.titulo</td>
+               <td><a href="$albumInfoBreve.uri.href">$albumInfoBreve.uri.title</a></td>
+            </tr>
+            #end
+         </tbody>
+      </table>
+   </body>
+</html>

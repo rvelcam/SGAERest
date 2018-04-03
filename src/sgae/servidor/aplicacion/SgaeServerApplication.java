@@ -40,7 +40,7 @@ public class SgaeServerApplication extends Application{
 		router.attach("/gruposMusicales/{grupoMusicalCIF}/albumes/", AlbumesServerResource.class);
 		router.attach("/gruposMusicales/{grupoMusicalCIF}/miembros/", MiembrosServerResource.class);
 		router.attach("/gruposMusicales/{grupoMusicalCIF}/albumes/{idAlbum}/", AlbumServerResource.class);
-		router.attach("/gruposMusicales/{grupoMusicalCIF}/albumes/{idAlbum}/pistas", PistasServerResource.class);
+		router.attach("/gruposMusicales/{grupoMusicalCIF}/albumes/{idAlbum}/pistas/", PistasServerResource.class);
 		router.attach("/gruposMusicales/{grupoMusicalCIF}/albumes/{idAlbum}/pistas/{idPista}", PistaServerResource.class);
 		
 		return router;		

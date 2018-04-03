@@ -46,7 +46,7 @@ xjc -p sgae.util.generated
   <xs:element name="PersonasXML">
     <xs:complexType>
       <xs:sequence>
-	<xs:element ref="sgaerestrecursos:PersonaInfoBreve" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element ref="sgaerestrecursos:PersonaInfoBreve" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -67,4 +67,91 @@ xjc -p sgae.util.generated
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <!-- Recursos derivados de grupos musicales (Persona, GruposMusicales, GrupoMusical -->  
+  <xs:element name="MiembrosXML">
+    <xs:complexType>
+      <xs:sequence>			
+		<xs:element ref="sgaerestrecursos:PersonaInfoBreve" minOccurs="0" maxOccurs="unbounded"/>			
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GrupoMusicalInfoBreve">
+    <xs:complexType>
+      <xs:sequence>
+	<xs:element name="CIF" type="xs:string"/>
+	<xs:element name="nombre" type="xs:string"/>	
+	<xs:element name="uri" type ="sgaerestutillink:link"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GruposMusicalesXML">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element ref="sgaerestrecursos:GrupoMusicalInfoBreve" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GrupoMusicalXML">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element name="CIF" type="xs:string"/>
+		<xs:element name="nombre" type="xs:string"/>	
+		<xs:element name="fechaCreacion" type="xs:string"/>	
+		<xs:element name="albumes" type="xs:int"/>		
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+<!-- Recursos derivados de album (Albumes, Album -->
+  <xs:element name="AlbumInfoBreve">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element name="idAlbum" type="xs:string"/>
+		<xs:element name="titulo" type="xs:string"/>		
+		<xs:element name="uri" type ="sgaerestutillink:link"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AlbumesXML">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element ref="sgaerestrecursos:AlbumInfoBreve" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AlbumXML">  
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element name="idAlbum" type="xs:string"/>
+		<xs:element name="titulo" type="xs:string"/>
+		<xs:element name="fechaPublicacion" type="xs:string"/>
+		<xs:element name="ejemplaresVendidos" type="xs:int"/>				
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+<!-- Recursos derivados de pista (Pistas, pista -->  
+  <xs:element name="PistaInfoBreve">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element name="idPista" type="xs:string"/>
+		<xs:element name="nombre" type="xs:string"/>		
+		<xs:element name="uri" type ="sgaerestutillink:link"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PistasXML">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element ref="sgaerestrecursos:PistaInfoBreve" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PistaXML">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element name="idPista" type="xs:string"/>
+		<xs:element name="nombre" type="xs:string"/>
+		<xs:element name="duracion" type="xs:int"/>		
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>  
 </xs:schema>
