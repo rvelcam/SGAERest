@@ -1,13 +1,13 @@
 package sgae.servidor.gruposMusicales;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.restlet.data.Form;
 import org.restlet.data.Status;
 import org.restlet.ext.jaxb.JaxbRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
-import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
@@ -17,6 +17,7 @@ import sgae.nucleo.gruposMusicales.ControladorGruposMusicales;
 import sgae.nucleo.gruposMusicales.ExcepcionGruposMusicales;
 import sgae.nucleo.gruposMusicales.GrupoMusical;
 import sgae.nucleo.personas.ExcepcionPersonas;
+import sgae.nucleo.personas.Persona;
 import sgae.servidor.aplicacion.SgaeServerApplication;
 import sgae.util.generated.GrupoMusicalXML;
 
@@ -64,8 +65,14 @@ public class GrupoMusicalServerResource extends ServerResource{
 		Form form = new Form(representacion);
 		String nombre = form.getValues("nombre");
 		String fechaCreacion = form.getValues("fechaCreacion");
+		String[] miembros = form.getValues("miembros").split(",");
+		
 		try{
-			controladorGruposMusicales.crearGrupoMusical(CIF, nombre, fechaCreacion);
+			List<Persona> miembrosActuales = this.controladorGruposMusicales.recuperarMiembros(this.CIF);
+			controladorGruposMusicales.crearGrupoMusical(CIF, nombre, fechaCreacion);			
+			for (int i=0;i<miembros.length;i++) {
+				this.controladorGruposMusicales.anadirMiembro(this.CIF, miembros[i]);
+			}
 			setStatus(Status.SUCCESS_CREATED);
 		}catch(ExcepcionGruposMusicales e){
 			try{
@@ -78,19 +85,8 @@ public class GrupoMusicalServerResource extends ServerResource{
 			}
 		} catch (ParseException e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
+		} catch (ExcepcionPersonas e) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 		}
 	}
-	
-	@Delete
-	public void eliminarMiembroGrupo(){			
-		try{
-			String dni="";
-			this.controladorGruposMusicales.eliminarMiembro(this.CIF, dni);
-			setStatus(Status.SUCCESS_NO_CONTENT);
-		}catch (ExcepcionPersonas e) {
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
-		}catch(ExcepcionGruposMusicales err) {
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-		} 
-	}	
 }
