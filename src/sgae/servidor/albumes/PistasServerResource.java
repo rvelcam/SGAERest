@@ -96,14 +96,15 @@ public class PistasServerResource extends ServerResource {
 	}
 	
 	@Post("form")
-	public Representation crearNuevaPista(Representation representacion) throws ResourceException {
+	public StringRepresentation crearNuevaPista(Representation representacion) throws ResourceException {
 		Form form = new Form(representacion);
 		String titulo = form.getValues("titulo");			
 		try{
 			int duracion = Integer.parseInt(form.getValues("duracion"));
 			String id = this.controladorGruposMusicales.anadirPista(this.CIF, this.idAlbum, titulo, duracion);
-			//No se si es necesario añadir alguna redireccion o algo
-			setStatus(Status.SUCCESS_OK);
+			//envia el id como texto y la referencia en la cabecera Location
+			setStatus(Status.SUCCESS_CREATED);
+			setLocationRef("http://localhost:8111/gruposMusicales/"+this.CIF+"/albumes/"+this.idAlbum+"/pistas/"+id);
 			return new StringRepresentation(id);
 		}catch (ExcepcionAlbumes e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	

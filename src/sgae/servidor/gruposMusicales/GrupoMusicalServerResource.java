@@ -65,14 +65,14 @@ public class GrupoMusicalServerResource extends ServerResource{
 		Form form = new Form(representacion);
 		String nombre = form.getValues("nombre");
 		String fechaCreacion = form.getValues("fechaCreacion");
-		String[] miembros = form.getValues("miembros").split(",");
+		//String[] miembros = form.getValues("miembros").split(",");
 		
 		try{
-			List<Persona> miembrosActuales = this.controladorGruposMusicales.recuperarMiembros(this.CIF);
+			//List<Persona> miembrosActuales = this.controladorGruposMusicales.recuperarMiembros(this.CIF);
 			controladorGruposMusicales.crearGrupoMusical(CIF, nombre, fechaCreacion);			
-			for (int i=0;i<miembros.length;i++) {
+			/*for (int i=0;i<miembros.length;i++) {
 				this.controladorGruposMusicales.anadirMiembro(this.CIF, miembros[i]);
-			}
+			}*/
 			setStatus(Status.SUCCESS_CREATED);
 		}catch(ExcepcionGruposMusicales e){
 			try{
@@ -85,8 +85,8 @@ public class GrupoMusicalServerResource extends ServerResource{
 			}
 		} catch (ParseException e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
-		} catch (ExcepcionPersonas e) {
+		}/* catch (ExcepcionPersonas e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-		}
+		}*/
 	}
 }

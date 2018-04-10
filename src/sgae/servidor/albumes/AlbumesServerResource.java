@@ -95,16 +95,17 @@ public class AlbumesServerResource extends ServerResource {
 	}
 	
 	@Post("form")
-	public Representation crearNuevoAlbum(Representation representacion) throws ResourceException {
+	public StringRepresentation crearNuevoAlbum(Representation representacion) throws ResourceException {
 		Form form = new Form(representacion);
 		String titulo = form.getValues("titulo");		
 		String fechaPublicacion = form.getValues("fechaPublicacion");
 		try{
 			int ejemplaresVendidos = Integer.parseInt(form.getValues("ejemplaresVendidos"));
 			String id = this.controladorGruposMusicales.crearAlbum(this.CIF, titulo, fechaPublicacion, ejemplaresVendidos);
-			//No se si es necesario añadir alguna redireccion o algo
-			setStatus(Status.SUCCESS_OK);
-			return new StringRepresentation(id);
+			//envia el id como texto y la referencia en la cabecera Location
+			setStatus(Status.SUCCESS_CREATED);
+			setLocationRef("http://localhost:8111/gruposMusicales/"+this.CIF+"/albumes/"+id+"/");
+			return new StringRepresentation(id);			
 		}catch (ParseException e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
 		}catch (NumberFormatException errNum) {
