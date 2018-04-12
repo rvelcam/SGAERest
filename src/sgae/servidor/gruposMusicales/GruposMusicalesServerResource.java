@@ -37,11 +37,11 @@ public class GruposMusicalesServerResource extends ServerResource{
 	public Representation representacionXML(){
 		GruposMusicalesXML gruposXml = new GruposMusicalesXML();
 		try{
-			GrupoMusicalInfoBreve grupoInfoBreve = new GrupoMusicalInfoBreve();
-			Link link = new Link();
-			
+					
 			for(GrupoMusical grupo: controladorGruposMusicales.recuperarGruposMusicales()){
-				link.setHref(grupo.getCif());
+				GrupoMusicalInfoBreve grupoInfoBreve = new GrupoMusicalInfoBreve();
+				Link link = new Link();
+				link.setHref(grupo.getCif() + "/");
 				link.setTitle("grupo musical");
 				link.setType("simple");
 				grupoInfoBreve.setUri(link);

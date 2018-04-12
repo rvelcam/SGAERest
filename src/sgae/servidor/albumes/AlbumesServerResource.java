@@ -47,11 +47,11 @@ public class AlbumesServerResource extends ServerResource {
 	protected Representation get (Variant variant) throws ResourceException {
 		Representation result = null;
 		if (MediaType.TEXT_HTML.isCompatible(variant.getMediaType())) {
-			AlbumesXML albumesXML = new AlbumesXML();
-			Link link = new Link();
+			AlbumesXML albumesXML = new AlbumesXML();			
 			try {
 				for (Album album : this.controladorGruposMusicales.recuperarAlbumes(this.CIF)){
-					link.setHref(album.getId());
+					Link link = new Link();
+					link.setHref(album.getId() + "/");
 					link.setTitle("album");
 					link.setType("simple");
 					AlbumInfoBreve albumInfoBreve = new AlbumInfoBreve();

@@ -7,6 +7,7 @@ import org.restlet.data.Status;
 import org.restlet.ext.jaxb.JaxbRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
+import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
@@ -45,6 +46,7 @@ public class PersonaServerResource extends ServerResource{
 			personaXml.setApellidos(persona.getApellidos());
 			personaXml.setDni(DNI);
 			personaXml.setNombre(persona.getNombre());
+			personaXml.setFechaNacimiento(persona.getFechaNacimiento());
 			JaxbRepresentation<PersonaXML> result = new JaxbRepresentation<PersonaXML>(personaXml);
 			result.setFormattedOutput(true);
 			return result;
@@ -73,5 +75,15 @@ public class PersonaServerResource extends ServerResource{
 		} catch (ParseException e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
 		}
+	}
+	
+	@Delete
+	public void eliminarPersona(){			
+		try{			
+			this.controladorPersonas.borrarPersona(this.DNI);
+			setStatus(Status.SUCCESS_NO_CONTENT);
+		}catch (ExcepcionPersonas e) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		} 
 	}
 }

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sgae.util.Utils;
+
 /**
  * Clase que almacena información sobre los álbumes de un grupo musical.
  * @author Manuel Rodríguez Cayetano. ETSIT UVa.
@@ -40,15 +42,17 @@ public class Album {
 	 * @throws ParseException si el parámetro <i>fechaPublicacion</i> no tiene 
 	 * el formato dd-MM-yyyy
 	 */
-	public Album(String idAlbum, String titulo, String fechaPublicacion,
-		     int ejemplaresVendidos) 
+	public Album(String idAlbum, String titulo, String fechaPublicacion, int ejemplaresVendidos) 
 		throws ParseException {
 		super();
 		// Inicializa con valores pasados como parámetros
-		this.idAlbum = idAlbum;
-		this.titulo = titulo;
+		this.idAlbum = Utils.testStringNullOrEmptyOrWhitespaceAndSet(idAlbum, "Campo idAlbum vacío");
+		this.titulo = Utils.testStringNullOrEmptyOrWhitespaceAndSet(titulo, "Campo título vacío");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
+		if (Utils.isStringNullOrEmptyOrWhitespace(fechaPublicacion)) {
+			throw new ParseException("Campo fecha de publicación vacío", 0);
+		}
 		this.fechaPublicacion = dateFormat.parse(fechaPublicacion);
 		this.ejemplaresVendidos = ejemplaresVendidos;
 		// Inicializa una lista de pistas vacía y el contador de pistas
@@ -78,7 +82,7 @@ public class Album {
 	 * @param nuevoTitulo el nuevo título del nombre
 	 */
 	public void setTitulo(String nuevoTitulo) {
-		titulo = nuevoTitulo;
+		titulo = Utils.testStringNullOrEmptyOrWhitespaceAndSet(nuevoTitulo, "Campo título vacío");
 	}
 	
 	/** 
@@ -99,6 +103,9 @@ public class Album {
 		throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
+		if (Utils.isStringNullOrEmptyOrWhitespace(nuevaFechaPublicacion)) {
+			throw new ParseException("Campo fecha de publicación vacío", 0);
+		}
 		this.fechaPublicacion = dateFormat.parse(nuevaFechaPublicacion);
 	}
 	

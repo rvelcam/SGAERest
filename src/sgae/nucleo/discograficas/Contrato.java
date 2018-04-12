@@ -1,5 +1,6 @@
 package sgae.nucleo.discograficas;
 import sgae.nucleo.gruposMusicales.GrupoMusical;
+import sgae.util.Utils;
 
 /**
  * Clase que recoge las características de un contrato y los métodos para 
@@ -35,10 +36,10 @@ public class Contrato {
 		    String fechaInicio, String fechaFin, float sueldo) {
         super();
         // Inicializa según los parámetros
-        this.id = id;
+        this.id = Utils.testStringNullOrEmptyOrWhitespaceAndSet(id, "Campo id vacío");
         this.grupoMusical = grupoMusical;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+        this.fechaInicio = Utils.testStringNullOrEmptyOrWhitespaceAndSet(fechaInicio, "Campo fecha inicio vacío");
+        this.fechaFin = Utils.testStringNullOrEmptyOrWhitespaceAndSet(fechaFin, "Campo fecha fin vacío");
         this.sueldo = sueldo;
         // Por defecto un contrato se crea como activo
         this.activo = true;
@@ -83,7 +84,7 @@ public class Contrato {
      * @param fechaInicio la nueva fecha de inicio del contrato
      */
     public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
+        this.fechaInicio = Utils.testStringNullOrEmptyOrWhitespaceAndSet(fechaInicio, "Campo fecha inicio vacío");
     }
 
     /**
@@ -99,7 +100,7 @@ public class Contrato {
      * @param fechaFinalizacion la nueva fecha de finalización del contrato
      */
     public void setFechaFinalizacion(String fechaFinalizacion) {
-        this.fechaFin = fechaFinalizacion;
+        this.fechaFin = Utils.testStringNullOrEmptyOrWhitespaceAndSet(fechaFinalizacion, "Campo fecha fin vacío");
     }
 
    /** 

@@ -55,7 +55,7 @@ public class MiembrosServerResource extends ServerResource {
 				PersonaInfoBreve persona = new PersonaInfoBreve();
 				Link link = new Link();
 				link.setType("simple");
-				link.setHref(persona.getDni());
+				link.setHref("http://localhost:8111/personas/"+miembro.getDni());
 				link.setTitle("Miembro Actual");
 				persona.setNombre(miembro.getNombre());
 				persona.setApellidos(miembro.getApellidos());

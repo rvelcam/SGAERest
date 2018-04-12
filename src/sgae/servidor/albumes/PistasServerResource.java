@@ -53,7 +53,7 @@ public class PistasServerResource extends ServerResource {
 			Link link = new Link();
 			try {
 				for (Pista pista : this.controladorGruposMusicales.recuperarPistas(this.CIF, this.idAlbum)){
-					link.setHref(pista.getIdPista());
+					link.setHref(pista.getIdPista() + "/");
 					link.setTitle("Pista");
 					link.setType("simple");
 					PistaInfoBreve pistaInfoBreve = new PistaInfoBreve();

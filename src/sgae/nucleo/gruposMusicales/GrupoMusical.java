@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import sgae.nucleo.personas.Persona;
+import sgae.util.Utils;
 import sgae.nucleo.personas.ExcepcionPersonas;
 
 /**
@@ -52,10 +53,13 @@ public class GrupoMusical {
 	public GrupoMusical(String cif, String nombre, String fechaCreacion)
 		throws ParseException {
 		super();
-		this.cif = cif;
-		this.nombre = nombre;
+		this.cif = Utils.testStringNullOrEmptyOrWhitespaceAndSet(cif, "Campo CIF vacío");
+		this.nombre = Utils.testStringNullOrEmptyOrWhitespaceAndSet(nombre, "Campo nombre vacío");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
+		if (Utils.isStringNullOrEmptyOrWhitespace(fechaCreacion)) {
+			throw new ParseException("Campo fecha de creación vacío", 0);
+		}
 		this.fechaCreacion = dateFormat.parse(fechaCreacion);
 		contratado = false;
 		listaMiembrosActuales = new HashMap<String, Persona>();
@@ -87,7 +91,7 @@ public class GrupoMusical {
 	 * @param nombre el nuevo nombre del grupo musical
 	 */
  	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.nombre = Utils.testStringNullOrEmptyOrWhitespaceAndSet(nombre, "Campo nombre vacío");
 	}
 
 	/**
@@ -107,6 +111,9 @@ public class GrupoMusical {
  	public void setFechaCreacion(String fechaCreacion) throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
+		if (Utils.isStringNullOrEmptyOrWhitespace(fechaCreacion)) {
+			throw new ParseException("Campo fecha de creación vacío", 0);
+		}
 		this.fechaCreacion = dateFormat.parse(fechaCreacion);
 	}
 
@@ -240,6 +247,8 @@ public class GrupoMusical {
 		Album a = new Album(idAlbum, titulo, fechaPublicacion, ejemplaresVendidos);
 		// La colecciona, indexada por identificador
 		listaAlbumes.put(idAlbum, a);
+		// Incrementa el contador
+		ultimoAlbum++;
 		return idAlbum;
 	}
 

@@ -14,7 +14,6 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ClientResource;
-import org.restlet.resource.Delete;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
@@ -41,7 +40,7 @@ public class PistaServerResource extends ServerResource {
 		this.idPista = getAttribute("idPista");
 		this.CIF = getAttribute("grupoMusicalCIF");
 		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
-		getVariants().add(new Variant(MediaType.TEXT_HTML));
+		getVariants().add(new Variant(MediaType.TEXT_HTML));		
 	}
 	
 	@Override
@@ -83,15 +82,18 @@ public class PistaServerResource extends ServerResource {
 		return result;
 	}
 	
-	@Delete
-	public void eliminarPista(){			
+	@Override
+	protected Representation delete (Variant variant) throws ResourceException {
 		try{			
 			this.controladorGruposMusicales.eliminarPista(this.CIF, this.idAlbum, this.idPista);
 			setStatus(Status.SUCCESS_NO_CONTENT);
-		}catch (ExcepcionPistas e) {
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
-		}catch(ExcepcionGruposMusicales | ExcepcionAlbumes err) {
+			return new StringRepresentation("");
+		}catch (ExcepcionGruposMusicales e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-		} 
+		} catch (ExcepcionAlbumes e) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		} catch (ExcepcionPistas e) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		}
 	}
 }

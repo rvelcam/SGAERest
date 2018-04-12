@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 
@@ -30,14 +31,16 @@ public class ClienteSGAE {
 		String idPista="";
 		String tituloPista = "Nuevo tema";
 		int duracion = 45;
-		
+		Representation representation;
+		Representation result;
 		//crear una persona
 		try {
 			ClientResource nuevaPersona = new ClientResource (rootURL + "personas/"+DNI);
-			nuevaPersona.setAttribute("Content-Type", MediaType.APPLICATION_WWW_FORM);
-			String data = "nombre="+nombre+"&apellidos="+apellidos+"fechaNacimiento="+fechaNacimiento;
-			Representation result = nuevaPersona.put(data);
-			System.out.println("Creacion de una persona");
+			//nuevaPersona.setAttribute("Content-Type", MediaType.APPLICATION_WWW_FORM);
+			String data = "nombre="+nombre+"&apellidos="+apellidos+"&fechaNacimiento="+fechaNacimiento;			
+			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
+			result = nuevaPersona.put(representation);
+			System.out.println("Creacion de una persona\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -49,8 +52,8 @@ public class ClienteSGAE {
 		//listar todas las personas
 		try {
 			ClientResource listaPersonas = new ClientResource (rootURL + "personas/");
-			Representation result = listaPersonas.get();
-			System.out.println("Listado de todas las personas");
+			result = listaPersonas.get();
+			System.out.println("Listado de todas las personas\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -63,8 +66,9 @@ public class ClienteSGAE {
 		try {
 			ClientResource nuevoGrupoMusical = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/");
 			String data = "nombre="+nombreGrupoMusical+"&fechaCreacion="+fechaCreacion;
-			Representation result = nuevoGrupoMusical.put(data);
-			System.out.println("Creacion de un grupo musical");
+			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
+			result = nuevoGrupoMusical.put(representation);
+			System.out.println("Creacion de un grupo musical\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
 	        System.out.println(e.getResponse().getEntityAsText());
@@ -76,8 +80,8 @@ public class ClienteSGAE {
 		//listar todos los grupos musicales
 		try {
 			ClientResource listaGruposMusicales = new ClientResource (rootURL + "gruposMusicales/");
-			Representation result = listaGruposMusicales.get();
-			System.out.println("Listado de todos los grupos Musicales");
+			result = listaGruposMusicales.get();
+			System.out.println("Listado de todos los grupos Musicales\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -91,8 +95,8 @@ public class ClienteSGAE {
 		//listar todos los miembros de un grupo musical
 		try {
 			ClientResource listaMiembrosGruposMusicales = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/miembros");
-			Representation result = listaMiembrosGruposMusicales.get();
-			System.out.println("Listado de todos los miembros de un grupo Musicales");
+			result = listaMiembrosGruposMusicales.get();
+			System.out.println("Listado de todos los miembros de un grupo Musicales\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -107,9 +111,10 @@ public class ClienteSGAE {
 		try {
 			ClientResource nuevoAlbum = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/");
 			String data = "titulo="+tituloAlbum+"&fechaPublicacion="+fechaPublicacion;
-			Representation result = nuevoAlbum.post(data);
+			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
+			result = nuevoAlbum.post(representation);
 			idAlbum = result.getText();
-			System.out.println("Creacion de un album");
+			System.out.println("Creacion de un album\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
 	        System.out.println(e.getResponse().getEntityAsText());
@@ -121,8 +126,8 @@ public class ClienteSGAE {
 		//listar todos los albumes de un grupo musical
 		try {
 			ClientResource listaAlbumesGruposMusicales = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/");
-			Representation result = listaAlbumesGruposMusicales.get();
-			System.out.println("Listado de todos los albumes de un grupo Musicales");
+			result = listaAlbumesGruposMusicales.get();
+			System.out.println("Listado de todos los albumes de un grupo Musicales\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -135,9 +140,10 @@ public class ClienteSGAE {
 		try {
 			ClientResource nuevaPista = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/"+idAlbum+"/pistas/");
 			String data = "titulo="+tituloPista+"&duracion="+duracion;
-			Representation result = nuevaPista.post(data);
+			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
+			result = nuevaPista.post(representation);
 			idPista = result.getText();
-			System.out.println("Creacion de una pista");
+			System.out.println("Creacion de una pista\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
 	        System.out.println(e.getResponse().getEntityAsText());
@@ -149,8 +155,8 @@ public class ClienteSGAE {
 		//listar todas las pistas de un album
 		try {
 			ClientResource listaPistasAlbum = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/"+idAlbum+"/pistas/");
-			Representation result = listaPistasAlbum.get();
-			System.out.println("Listado de todas las pistas de un album");
+			result = listaPistasAlbum.get();
+			System.out.println("Listado de todas las pistas de un album\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -162,8 +168,8 @@ public class ClienteSGAE {
 		//borrar una pista
 		try {
 			ClientResource eliminarPistaAlbum = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/"+idAlbum+"/pistas/"+idPista);
-			Representation result = eliminarPistaAlbum.delete();
-			System.out.println("Eliminacion de una pista de un album");
+			result = eliminarPistaAlbum.delete();
+			System.out.println("Eliminacion de una pista de un album\n--------------------------------------------");
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());

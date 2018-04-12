@@ -16,7 +16,6 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ClientResource;
-import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
@@ -41,6 +40,7 @@ public class AlbumServerResource extends ServerResource {
 		this.CIF = getAttribute("grupoMusicalCIF");
 		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
 		getVariants().add(new Variant(MediaType.TEXT_HTML));
+		getVariants().add(new Variant(MediaType.APPLICATION_WWW_FORM));
 	}
 	
 	@Override
@@ -63,11 +63,11 @@ public class AlbumServerResource extends ServerResource {
 			}catch(ExcepcionAlbumes | ExcepcionGruposMusicales err) {
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 			} catch (ResourceNotFoundException e) {
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 			} catch (ParseErrorException e) {
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 			} catch (IOException e) {
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 			}
 		}else if (MediaType.TEXT_PLAIN.isCompatible(variant.getMediaType())) {
 			try {				
@@ -83,22 +83,40 @@ public class AlbumServerResource extends ServerResource {
 		return result;
 	}
 	
-	@Put("form")
-	public void modificarAlbum(Representation representacion){
-		Form form = new Form(representacion);
-		String titulo = form.getValues("titulo");		
-		String fechaPublicacion = form.getValues("fechaPublicacion");
-		try{
-			int ejemplaresVendidos = Integer.parseInt(form.getValues("ejemplaresVendidos"));
-			this.controladorGruposMusicales.modificarAlbum(this.CIF, this.idAlbum, titulo, fechaPublicacion, ejemplaresVendidos);
+	@Override
+	public Representation put (Representation representacion, Variant variant){
+		if (MediaType.APPLICATION_WWW_FORM.isCompatible(variant.getMediaType())) {
+			Form form = new Form(representacion);
+			String titulo = form.getValues("titulo");		
+			String fechaPublicacion = form.getValues("fechaPublicacion");
+			try{
+				int ejemplaresVendidos = Integer.parseInt(form.getValues("ejemplaresVendidos"));
+				this.controladorGruposMusicales.modificarAlbum(this.CIF, this.idAlbum, titulo, fechaPublicacion, ejemplaresVendidos);
+				setStatus(Status.SUCCESS_NO_CONTENT);				
+			}catch (ParseException e) {
+				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
+			}catch (NumberFormatException errNum) {
+				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+			}catch(ExcepcionGruposMusicales | ExcepcionAlbumes err) {
+				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+			}
+		}else {
+			setStatus(Status.CLIENT_ERROR_NOT_ACCEPTABLE);
+		}	
+		return new StringRepresentation("");
+	}
+	
+	@Override
+	protected Representation delete (Variant variant) throws ResourceException {
+		try{			
+			this.controladorGruposMusicales.borrarAlbum(this.CIF, this.idAlbum);
 			setStatus(Status.SUCCESS_NO_CONTENT);
-		}catch (ParseException e) {
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
-		}catch (NumberFormatException errNum) {
+			return new StringRepresentation("");
+		}catch (ExcepcionGruposMusicales e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-		}catch(ExcepcionGruposMusicales | ExcepcionAlbumes err) {
+		} catch (ExcepcionAlbumes e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-		}
+		} 
 	}
 
 }

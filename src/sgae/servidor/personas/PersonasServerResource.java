@@ -35,11 +35,11 @@ public class PersonasServerResource extends ServerResource{
 	@Get("xml")
 	public Representation representacionXML(){
 		PersonasXML personasXml = new PersonasXML();
-		try{
-			PersonaInfoBreve personaInfoBreve = new PersonaInfoBreve();
-			Link link = new Link();
+		try{		
 			
 			for(Persona persona: controladorPersonas.recuperarPersonas()){
+				PersonaInfoBreve personaInfoBreve = new PersonaInfoBreve();
+				Link link = new Link();
 				link.setHref(persona.getDni());
 				link.setTitle("persona");
 				link.setType("simple");
@@ -57,4 +57,5 @@ public class PersonasServerResource extends ServerResource{
 			return null;
 		}
 	}
+	
 }

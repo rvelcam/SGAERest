@@ -7,6 +7,7 @@ import java.util.Map;
 
 import sgae.nucleo.gruposMusicales.GrupoMusical;
 import sgae.nucleo.personas.Persona;
+import sgae.util.Utils;
 
 /**
  * Clase que recoge las características de una discográfica y los métodos para
@@ -63,9 +64,9 @@ public class Discografica {
 	public Discografica(String cif, String nombre, String direccion) {
 		super();
 		// Asigna campos básicos
-		this.cif = cif;
-		this.nombre = nombre;
-		this.direccion = direccion;
+		this.cif = Utils.testStringNullOrEmptyOrWhitespaceAndSet(cif, "Campo CIF vacío");
+		this.nombre = Utils.testStringNullOrEmptyOrWhitespaceAndSet(nombre, "Campo nombre vacío");
+		this.direccion = Utils.testStringNullOrEmptyOrWhitespaceAndSet(direccion, "Campo dirección vacío");
 		// Inicializa las colecciones de contratos
 		listaContratosActivos = new HashMap<String, Contrato>();
 		listaContratosTerminados = new HashMap<String, Contrato>();
@@ -99,7 +100,7 @@ public class Discografica {
 	 *            el nuevo nombre de la discografica
 	 */
 	public void setNombre(String nuevoNombre) {
-		nombre = nuevoNombre;
+		this.nombre = Utils.testStringNullOrEmptyOrWhitespaceAndSet(nuevoNombre, "Campo nombre vacío");
 	}
 
 	/**
@@ -118,7 +119,7 @@ public class Discografica {
 	 *            la nueva dirección de la discografica
 	 */
 	public void setDireccion(String nuevaDireccion) {
-		direccion = nuevaDireccion;
+		this.direccion = Utils.testStringNullOrEmptyOrWhitespaceAndSet(nuevaDireccion, "Campo dirección vacío");
 	}
 
 	/**
