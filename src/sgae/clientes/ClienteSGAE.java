@@ -27,6 +27,7 @@ public class ClienteSGAE {
 		String idAlbum="";
 		String tituloAlbum = "Nueva asignatura";
 		String fechaPublicacion = "09-04-2018";
+		int ejemplaresVendidos=45;
 		//datos de una pista
 		String idPista="";
 		String tituloPista = "Nuevo tema";
@@ -35,13 +36,13 @@ public class ClienteSGAE {
 		Representation result;
 		//crear una persona
 		try {
-			ClientResource nuevaPersona = new ClientResource (rootURL + "personas/"+DNI);
-			//nuevaPersona.setAttribute("Content-Type", MediaType.APPLICATION_WWW_FORM);
+			ClientResource nuevaPersona = new ClientResource (rootURL + "personas/"+DNI);			
 			String data = "nombre="+nombre+"&apellidos="+apellidos+"&fechaNacimiento="+fechaNacimiento;			
 			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
 			result = nuevaPersona.put(representation);
 			System.out.println("Creacion de una persona\n--------------------------------------------");
-			System.out.println(result.getText());
+			System.out.println("Status : " + nuevaPersona.getResponse());			
+			System.out.println("Resultado : " + result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
         } catch (IOException e) {
@@ -54,6 +55,7 @@ public class ClienteSGAE {
 			ClientResource listaPersonas = new ClientResource (rootURL + "personas/");
 			result = listaPersonas.get();
 			System.out.println("Listado de todas las personas\n--------------------------------------------");
+			System.out.println("Status : " + listaPersonas.getResponse());
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -69,6 +71,7 @@ public class ClienteSGAE {
 			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
 			result = nuevoGrupoMusical.put(representation);
 			System.out.println("Creacion de un grupo musical\n--------------------------------------------");
+			System.out.println("Status : " + nuevoGrupoMusical.getResponse());
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
 	        System.out.println(e.getResponse().getEntityAsText());
@@ -82,6 +85,7 @@ public class ClienteSGAE {
 			ClientResource listaGruposMusicales = new ClientResource (rootURL + "gruposMusicales/");
 			result = listaGruposMusicales.get();
 			System.out.println("Listado de todos los grupos Musicales\n--------------------------------------------");
+			System.out.println("Status : " + listaGruposMusicales.getResponse());
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -91,12 +95,26 @@ public class ClienteSGAE {
 		}
 		
 		//añadir una persona a un grupo musical
-		
+		try {
+			ClientResource nuevoMiembroGrupoMusical = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/");
+			String data = "nombre="+nombreGrupoMusical+"&fechaCreacion="+fechaCreacion+"&miembros="+DNI;
+			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
+			result = nuevoMiembroGrupoMusical.put(representation);
+			System.out.println("Añadir un miembro a un grupo musical\n--------------------------------------------");
+			System.out.println("Status : " + nuevoMiembroGrupoMusical.getResponse());
+			System.out.println(result.getText());
+		}catch (ResourceException e) {
+	        System.out.println(e.getResponse().getEntityAsText());
+	    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//listar todos los miembros de un grupo musical
 		try {
 			ClientResource listaMiembrosGruposMusicales = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/miembros");
 			result = listaMiembrosGruposMusicales.get();
 			System.out.println("Listado de todos los miembros de un grupo Musicales\n--------------------------------------------");
+			System.out.println("Status : " + listaMiembrosGruposMusicales.getResponse());
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -105,17 +123,45 @@ public class ClienteSGAE {
 			e.printStackTrace();
 		}
 		
-		//eliminar un miembro de un grupo musical
-		
+		/*eliminar un miembro de un grupo musical -> para eliminar un miembro se envia la lista completa de miembros menos el
+		  que se quiere eliminar*/
+		try {
+			ClientResource eliminarMiembroGrupoMusical = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/");
+			String data = "nombre="+nombreGrupoMusical+"&fechaCreacion="+fechaCreacion+"&miembros=";
+			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
+			result = eliminarMiembroGrupoMusical.put(representation);
+			System.out.println("Eliminar un miembro de un grupo musical\n--------------------------------------------");
+			System.out.println("Status : " + eliminarMiembroGrupoMusical.getResponse());
+			System.out.println(result.getText());
+		}catch (ResourceException e) {
+		    System.out.println(e.getResponse().getEntityAsText());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Comprobacion de que se ha eliminado correctamente ese miembro
+		try {
+			ClientResource listaMiembrosGruposMusicales = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/miembros");
+			result = listaMiembrosGruposMusicales.get();
+			System.out.println("Listado de todos los miembros de un grupo Musicales\n--------------------------------------------");
+			System.out.println("Status : " + listaMiembrosGruposMusicales.getResponse());
+			System.out.println(result.getText());
+		}catch (ResourceException e) {
+            System.out.println(e.getResponse().getEntityAsText());
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//añadir un album a un grupo musical
 		try {
 			ClientResource nuevoAlbum = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/");
-			String data = "titulo="+tituloAlbum+"&fechaPublicacion="+fechaPublicacion;
+			String data = "titulo="+tituloAlbum+"&fechaPublicacion="+fechaPublicacion+"&ejemplaresVendidos="+ejemplaresVendidos;
 			representation = new StringRepresentation(data, MediaType.APPLICATION_WWW_FORM);
 			result = nuevoAlbum.post(representation);
 			idAlbum = result.getText();
 			System.out.println("Creacion de un album\n--------------------------------------------");
-			System.out.println(result.getText());
+			System.out.println("Status : " + nuevoAlbum.getResponse());
+			System.out.println("Body : " + idAlbum);			
 		}catch (ResourceException e) {
 	        System.out.println(e.getResponse().getEntityAsText());
 	    } catch (IOException e) {
@@ -128,6 +174,7 @@ public class ClienteSGAE {
 			ClientResource listaAlbumesGruposMusicales = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/");
 			result = listaAlbumesGruposMusicales.get();
 			System.out.println("Listado de todos los albumes de un grupo Musicales\n--------------------------------------------");
+			System.out.println("Status : " + listaAlbumesGruposMusicales.getResponse());
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -144,7 +191,8 @@ public class ClienteSGAE {
 			result = nuevaPista.post(representation);
 			idPista = result.getText();
 			System.out.println("Creacion de una pista\n--------------------------------------------");
-			System.out.println(result.getText());
+			System.out.println("Status : " + nuevaPista.getResponse());
+			System.out.println("Body : " + idPista);
 		}catch (ResourceException e) {
 	        System.out.println(e.getResponse().getEntityAsText());
 	    } catch (IOException e) {
@@ -157,6 +205,7 @@ public class ClienteSGAE {
 			ClientResource listaPistasAlbum = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/"+idAlbum+"/pistas/");
 			result = listaPistasAlbum.get();
 			System.out.println("Listado de todas las pistas de un album\n--------------------------------------------");
+			System.out.println("Status : " + listaPistasAlbum.getResponse());
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
@@ -170,13 +219,14 @@ public class ClienteSGAE {
 			ClientResource eliminarPistaAlbum = new ClientResource (rootURL + "gruposMusicales/"+CIF+"/albumes/"+idAlbum+"/pistas/"+idPista);
 			result = eliminarPistaAlbum.delete();
 			System.out.println("Eliminacion de una pista de un album\n--------------------------------------------");
+			System.out.println("Status : " + eliminarPistaAlbum.getResponse());
 			System.out.println(result.getText());
 		}catch (ResourceException e) {
             System.out.println(e.getResponse().getEntityAsText());
         } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
 	}
 
 }
