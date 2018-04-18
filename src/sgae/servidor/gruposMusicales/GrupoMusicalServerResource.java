@@ -93,6 +93,8 @@ public class GrupoMusicalServerResource extends ServerResource{
 			} catch(ExcepcionPersonas e2){
 				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 			}
+		} catch (com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException e) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
 		} catch (ParseException e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
 		}catch (ExcepcionPersonas e) {
@@ -127,7 +129,6 @@ public class GrupoMusicalServerResource extends ServerResource{
 				this.controladorGruposMusicales.eliminarMiembro(this.CIF, miembro.getDni());
 			}
 		}
-		
 		//Comparar lista recibida con la actual -> añadir miembro en caso de que no se encuentre
 		String dni=null;
 		for (int i=0;i<miembrosaActualizar.length;i++) {
@@ -143,7 +144,6 @@ public class GrupoMusicalServerResource extends ServerResource{
 				this.controladorGruposMusicales.anadirMiembro(this.CIF, miembrosaActualizar[i]);
 			}
 		}		
-
 	}
 	private void anadirMiembrosAGrupoMusical(String []miembrosAanadir) throws ExcepcionPersonas, ExcepcionGruposMusicales{
 		for (int i=0;i<miembrosAanadir.length;i++) {

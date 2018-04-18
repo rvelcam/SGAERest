@@ -74,6 +74,8 @@ public class PersonaServerResource extends ServerResource{
 			}
 		} catch (ParseException e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
+		}catch (com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException e) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 		}
 	}
 	

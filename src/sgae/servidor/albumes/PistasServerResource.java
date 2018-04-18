@@ -80,8 +80,9 @@ public class PistasServerResource extends ServerResource {
 		}else if (MediaType.TEXT_PLAIN.isCompatible(variant.getMediaType())) {
 			try {				
 				StringBuilder infoPistas = new StringBuilder();
-				for(String pista : this.controladorGruposMusicales.listarPistas(this.CIF, this.idAlbum)){
-					infoPistas.append((pista == null) ? "\n" : pista);
+				
+				for(Pista pista : this.controladorGruposMusicales.recuperarPistas(this.CIF, this.idAlbum)){
+					infoPistas.append((pista == null) ? "\n" : "Nombre: " + pista.getNombre() + "\tUri: " + pista.getIdPista());
 				}
 				result = new StringRepresentation(infoPistas.toString());
 			}catch (ExcepcionGruposMusicales | ExcepcionAlbumes e) {

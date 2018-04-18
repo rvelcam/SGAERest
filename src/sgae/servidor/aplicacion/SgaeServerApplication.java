@@ -16,10 +16,21 @@ import sgae.servidor.gruposMusicales.MiembrosServerResource;
 import sgae.servidor.personas.PersonaServerResource;
 import sgae.servidor.personas.PersonasServerResource;
 
+/**
+ * Clase de aplicación del servidor.
+ * 
+ * @author Raúl Velasco Caminero y Héctor González Beltrán. ETSIT UVa.
+ * @version 1.0
+ */
 public class SgaeServerApplication extends Application{
+	/** objeto controlador de grupos musicales */
 	private ControladorGruposMusicales controladorGruposMusicales;
+	/** objeto controlador de personas */
 	private ControladorPersonas controladorPersonas;
 	
+	/**
+	 * Constructor que envía las propiedades de la aplicación e inicializa los controladores de personas y grupos musicales.
+	 */
 	public SgaeServerApplication(){
 		setName("RESTfull Sgae Server Component");
 		setOwner("ptpdx04");
@@ -29,6 +40,11 @@ public class SgaeServerApplication extends Application{
 		this.controladorGruposMusicales = new ControladorGruposMusicales(this.controladorPersonas);
 	}
 	
+	/**
+	 * Método que contiene todas las reglas de encaminamiento de los patrones de URIs de las peticiones de los recursos
+	 * que las gestionarán.
+	 * @return el objeto router que contiene la vinculación de los diferentes recursos. 
+	 */
 	@Override
 	public Restlet createInboundRoot(){
 		Router router = new Router(getContext());
@@ -46,10 +62,19 @@ public class SgaeServerApplication extends Application{
 		return router;		
 	}
 	
-	
+	/**
+	 * Método que permite obtener una referencia al objeto ControladorGruposMusicales.
+	 * 
+	 * @return el controlador de grupos musicales.
+	 */
 	public ControladorGruposMusicales getControladorGruposMusicales(){
 		return this.controladorGruposMusicales;
 	}
+	/**
+	 * Método que permite obtener una referencia al objeto ControladorPersonas.
+	 * 
+	 * @return el controlador de personas.
+	 */
 	public ControladorPersonas getControladorPersonas(){
 		return this.controladorPersonas;
 	}

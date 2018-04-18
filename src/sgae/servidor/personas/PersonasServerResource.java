@@ -27,8 +27,11 @@ public class PersonasServerResource extends ServerResource{
 	@Get("txt")
 	public StringRepresentation representacionTxt(){
 		StringBuilder result = new StringBuilder();
-		for(String persona : controladorPersonas.listarPersonas()){
-			result.append((persona == null) ? " \n" : persona);
+		for(Persona persona : controladorPersonas.recuperarPersonas()){
+			result.append((persona == null) ? " \n" : "DNI: " + persona.getDni() 
+					+ "\tNombre: " + persona.getNombre() + "\tApellidos: " 
+					+ persona.getApellidos() + "\tUri: " 
+					+ getRequest().getResourceRef().getIdentifier()+persona.getDni());
 		}
 		return new StringRepresentation(result.toString());		
 	}

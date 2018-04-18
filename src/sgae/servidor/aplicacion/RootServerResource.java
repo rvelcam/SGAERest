@@ -10,22 +10,40 @@ import org.restlet.resource.ServerResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Clase que representa a los recursos.
+ * 
+ * @author Raúl Velasco Caminero y Héctor González Beltrán. ETSIT UVa.
+ * @version 1.0
+ */
 public class RootServerResource extends ServerResource{
+	
+	/**
+	 * Constructor en el que se habilita la negociación de contenido.
+	 */
 	public RootServerResource(){
 		setNegotiated(true);
 	}
 	
-	
+	/**
+	 * Método utilizado para añadir tareas a la inicialización estándar del recurso.
+	 */
 	@Override
 	protected void doInit() throws ResourceException{
 		System.out.print("The Root Resouce was inicialized");
 	}
 	
+	/**
+	 * Método utilizado para añadir tareas a la gestion estándar de excepciones.
+	 */
 	@Override
 	protected void doCatch(Throwable throwable) {
 		System.out.print("An exception was thrown in the root resource");
 	}
 	
+	/**
+	 * Método utilizado para añadir tareas a la gestion estándar de excepciones.
+	 */
 	@Override
 	protected void doRelease() throws ResourceException{
 		System.out.print("The Root Resouce was released.\n");

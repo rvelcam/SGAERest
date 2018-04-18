@@ -1,5 +1,6 @@
 package sgae.servidor.gruposMusicales;
 
+
 import org.restlet.ext.jaxb.JaxbRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
@@ -28,8 +29,8 @@ public class GruposMusicalesServerResource extends ServerResource{
 	@Get("txt")
 	public StringRepresentation representacionTxt(){
 		StringBuilder result = new StringBuilder();
-		for(String grupoMusical : this.controladorGruposMusicales.listarGruposMusicales()){
-			result.append((grupoMusical == null) ? " \n" : grupoMusical);
+		for(GrupoMusical grupoMusical : this.controladorGruposMusicales.recuperarGruposMusicales()){
+			result.append((grupoMusical == null) ? " \n" : "CIF: " + grupoMusical.getCif() + "\tNombre: " + grupoMusical.getNombre() + "\tUri: " + grupoMusical.getCif() + "/");
 		}
 		return new StringRepresentation(result.toString());		
 	}

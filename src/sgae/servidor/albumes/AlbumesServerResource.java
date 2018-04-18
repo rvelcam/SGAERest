@@ -79,8 +79,8 @@ public class AlbumesServerResource extends ServerResource {
 		}else if (MediaType.TEXT_PLAIN.isCompatible(variant.getMediaType())) {
 			try {
 				StringBuilder infoAlbumes = new StringBuilder();
-				for(String album : this.controladorGruposMusicales.listarAlbumes(this.CIF)){
-					infoAlbumes.append((album == null) ? "\n" : album);
+				for(Album album : this.controladorGruposMusicales.recuperarAlbumes(this.CIF)){
+					infoAlbumes.append((album == null) ? "\n" : "Titulo: " + album.getTitulo() + "\tUri: " + album.getId() + "/");
 				}
 				result = new StringRepresentation(infoAlbumes.toString());
 			}catch (ExcepcionGruposMusicales e) {
@@ -111,6 +111,8 @@ public class AlbumesServerResource extends ServerResource {
 		}catch (NumberFormatException errNum) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 		}catch(ExcepcionGruposMusicales err) {
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		}catch(com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException e) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 		}
 	}
