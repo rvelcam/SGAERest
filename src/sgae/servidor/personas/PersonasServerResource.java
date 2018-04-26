@@ -31,7 +31,7 @@ public class PersonasServerResource extends ServerResource{
 			result.append((persona == null) ? " \n" : "DNI: " + persona.getDni() 
 					+ "\tNombre: " + persona.getNombre() + "\tApellidos: " 
 					+ persona.getApellidos() + "\tUri: " 
-					+ getRequest().getResourceRef().getIdentifier()+persona.getDni());
+					+ getRequest().getResourceRef().getIdentifier()+persona.getDni() + "\t\n");
 		}
 		return new StringRepresentation(result.toString());		
 	}

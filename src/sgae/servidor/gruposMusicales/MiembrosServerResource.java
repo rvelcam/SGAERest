@@ -13,8 +13,8 @@ import sgae.nucleo.gruposMusicales.ExcepcionGruposMusicales;
 import sgae.nucleo.personas.Persona;
 import sgae.servidor.aplicacion.SgaeServerApplication;
 import sgae.util.generated.Link;
+import sgae.util.generated.MiembroInfoBreve;
 import sgae.util.generated.MiembrosXML;
-import sgae.util.generated.PersonaInfoBreve;
 
 public class MiembrosServerResource extends ServerResource {
 
@@ -31,14 +31,16 @@ public class MiembrosServerResource extends ServerResource {
 	@Get("txt")
 	public StringRepresentation representacionTxt(){
 		StringBuilder result = new StringBuilder();
-		try{
-			result.append("Miembros actuales del grupo\n");
+		try{			
 			for(Persona miembro : this.controladorGruposMusicales.recuperarMiembros(this.CIF)){
-				result.append((miembro == null) ? " \n" : miembro.verDescripcionBreve());
-			}
-			result.append("Miembros anteriores del grupo\n");
+				if (miembro != null) {
+					result.append("DNI: "+miembro.getDni()+"\tNombre: "+miembro.getNombre() + "\tApellidos: " + miembro.getApellidos() + "\testado: miembro actual\turi: http://localhost:8111/personas/"+miembro.getDni()+"\n");
+				}				
+			}			
 			for(Persona miembro : this.controladorGruposMusicales.recuperarMiembrosAnteriores(this.CIF)){
-				result.append((miembro == null) ? " \n" : miembro.verDescripcionBreve());
+				if (miembro != null) {
+					result.append("DNI: "+miembro.getDni()+"\tNombre: "+miembro.getNombre() + "\tApellidos: " + miembro.getApellidos() + "\testado: miembro actual\turi: http://localhost:8111/personas/"+miembro.getDni()+"\n");
+				}				
 			}
 		}catch(ExcepcionGruposMusicales e) {
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -52,7 +54,7 @@ public class MiembrosServerResource extends ServerResource {
 		MiembrosXML miembrosXml = new MiembrosXML();
 		try {
 			for (Persona miembro: this.controladorGruposMusicales.recuperarMiembros(this.CIF)) {
-				PersonaInfoBreve persona = new PersonaInfoBreve();
+				MiembroInfoBreve persona = new MiembroInfoBreve();
 				Link link = new Link();
 				link.setType("simple");
 				link.setHref("http://localhost:8111/personas/"+miembro.getDni());
@@ -61,10 +63,11 @@ public class MiembrosServerResource extends ServerResource {
 				persona.setApellidos(miembro.getApellidos());
 				persona.setDni(miembro.getDni());
 				persona.setUri(link);
-				miembrosXml.getPersonaInfoBreve().add(persona);
+				persona.setEstado("Miembro actual");
+				miembrosXml.getMiembroInfoBreve().add(persona);
 			}					
 			for (Persona miembro: this.controladorGruposMusicales.recuperarMiembrosAnteriores(this.CIF)) {
-				PersonaInfoBreve persona = new PersonaInfoBreve();
+				MiembroInfoBreve persona = new MiembroInfoBreve();
 				Link link = new Link();
 				link.setType("simple");
 				link.setHref(persona.getDni());
@@ -72,8 +75,9 @@ public class MiembrosServerResource extends ServerResource {
 				persona.setNombre(miembro.getNombre());
 				persona.setApellidos(miembro.getApellidos());
 				persona.setDni(miembro.getDni());
+				persona.setEstado("Miembro anterior");
 				persona.setUri(link);
-				miembrosXml.getPersonaInfoBreve().add(persona);
+				miembrosXml.getMiembroInfoBreve().add(persona);
 			} 		
 			JaxbRepresentation<MiembrosXML> result = new JaxbRepresentation<MiembrosXML>(miembrosXml);
 			result.setFormattedOutput(true);

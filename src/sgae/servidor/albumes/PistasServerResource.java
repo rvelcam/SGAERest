@@ -22,6 +22,7 @@ import org.restlet.resource.ServerResource;
 import sgae.nucleo.gruposMusicales.ControladorGruposMusicales;
 import sgae.nucleo.gruposMusicales.ExcepcionAlbumes;
 import sgae.nucleo.gruposMusicales.ExcepcionGruposMusicales;
+import sgae.nucleo.gruposMusicales.ExcepcionPistas;
 import sgae.nucleo.gruposMusicales.Pista;
 import sgae.servidor.aplicacion.SgaeServerApplication;
 import sgae.util.generated.Link;
@@ -82,7 +83,7 @@ public class PistasServerResource extends ServerResource {
 				StringBuilder infoPistas = new StringBuilder();
 				
 				for(Pista pista : this.controladorGruposMusicales.recuperarPistas(this.CIF, this.idAlbum)){
-					infoPistas.append((pista == null) ? "\n" : "Nombre: " + pista.getNombre() + "\tUri: " + pista.getIdPista());
+					infoPistas.append((pista == null) ? "\n" : "Nombre: " + pista.getNombre() + "\tUri: " + pista.getIdPista()+"\n");
 				}
 				result = new StringRepresentation(infoPistas.toString());
 			}catch (ExcepcionGruposMusicales | ExcepcionAlbumes e) {
@@ -111,7 +112,7 @@ public class PistasServerResource extends ServerResource {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);	
 		}catch (NumberFormatException errNum) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-		}catch(ExcepcionGruposMusicales err) {
+		}catch(ExcepcionGruposMusicales | ExcepcionPistas err) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 		}
 	}

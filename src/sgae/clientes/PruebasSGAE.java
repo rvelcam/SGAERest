@@ -250,6 +250,8 @@ public class PruebasSGAE {
 				System.err.println("Ha fallado una operación para la discográfica con CIF " + 
 						e.getCif() + " por la siguiente razón: " + 
 					e	.getCausaFallo());
+		}catch (ParseException e) {
+			System.err.println(e.toString());
 		}
 
 	
@@ -301,14 +303,16 @@ public class PruebasSGAE {
 			System.out.println("Listado de contratos por compañías discográficas completado\n");
 	
 			
-		} catch (ExcepcionContratos e) {
+		} catch (ExcepcionContratos er) {
 			System.err.println("Ha fallado una operación para el contrato con id " + 
-					e.getIdContrato() + " por la siguiente razón: " + 
-					e.getCausaFallo());
-		} catch (ExcepcionDiscograficas e) {
+					er.getIdContrato() + " por la siguiente razón: " + 
+					er.getCausaFallo());
+		} catch (ExcepcionDiscograficas err) {
 			System.err.println("Ha fallado una operación para la compañía discográfica con CIF " + 
-				e.getCif() + " por la siguiente razón: " + 
-				e.getCausaFallo());
+					err.getCif() + " por la siguiente razón: " + 
+					err.getCausaFallo());
+		}catch (ParseException e) {
+			System.err.println(e.toString());
 		}
 
 		// // /////////////////////////////////////////////////////////////////
@@ -321,4 +325,5 @@ public class PruebasSGAE {
 		System.out.println("Total personas: " + numeroPersonas);
 		System.out.println("Recuperación de estadísticas completada\n");
 	}
+	
 }

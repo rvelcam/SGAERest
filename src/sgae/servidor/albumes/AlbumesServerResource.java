@@ -80,7 +80,7 @@ public class AlbumesServerResource extends ServerResource {
 			try {
 				StringBuilder infoAlbumes = new StringBuilder();
 				for(Album album : this.controladorGruposMusicales.recuperarAlbumes(this.CIF)){
-					infoAlbumes.append((album == null) ? "\n" : "Titulo: " + album.getTitulo() + "\tUri: " + album.getId() + "/");
+					infoAlbumes.append((album == null) ? "\n" : "Titulo: " + album.getTitulo() + "\tUri: " + album.getId() + "/\n");
 				}
 				result = new StringRepresentation(infoAlbumes.toString());
 			}catch (ExcepcionGruposMusicales e) {
