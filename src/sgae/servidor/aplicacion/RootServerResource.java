@@ -10,6 +10,8 @@ import org.restlet.resource.ServerResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+
+
 /**
  * Clase que representa a los recursos.
  * 
@@ -48,11 +50,20 @@ public class RootServerResource extends ServerResource{
 	protected void doRelease() throws ResourceException{
 		System.out.print("The Root Resouce was released.\n");
 	}
-	
+	/**
+	 * Método que invoca la operación GET sobre el recurso Root.
+	 * @return objeto del tipo String que contiene los recursos que cuelgan de éste
+	 */
 	@Get("txt")
 	public String getSubordinatedResourcesString(){
 		return "Personas/\nDiscograficas/\nGruposMusicales/";
 	}
+	/**
+	 * Método que invoca la operación GET sobre el recurso Root.
+	 * @return objeto del tipo Representation que contiene la representación con los recursos
+	 * que cuelgan de éste en formato xml
+	 * @throws IOException error al generar el recurso raiz
+	 */
 	@Get("xml")
 	public Representation getSubordinatedResourcesXml() throws IOException{
 		DomRepresentation result = new DomRepresentation();

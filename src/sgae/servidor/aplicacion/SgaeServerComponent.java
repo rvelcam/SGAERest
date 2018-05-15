@@ -14,6 +14,8 @@ import org.restlet.routing.VirtualHost;
 public class SgaeServerComponent extends Component{
 	/**
 	 * Método principal que permite arrancar el programa java.
+	 * @param args datos opcionales en la inicialización del componente.
+	 * @throws Exception error al iniciar el componente.
 	 */
 	public static void main(String []args) throws Exception{
 		new SgaeServerComponent().start();

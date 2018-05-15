@@ -16,20 +16,36 @@ import sgae.util.generated.Link;
 import sgae.util.generated.MiembroInfoBreve;
 import sgae.util.generated.MiembrosXML;
 
+/**
+ * Clase del recurso miembros del servidor.
+ * 
+ * @author Raúl Velasco Caminero y Héctor González Beltrán. ETSIT UVa.
+ * @version 1.0
+ */
 public class MiembrosServerResource extends ServerResource {
 
+	/** objeto controlador de grupos musicales */
 	private ControladorGruposMusicales controladorGruposMusicales;
+	/** objeto del tipo String que contiene el CIF del grupo musical */
 	private String CIF;	
 	
+	/**
+	 * Método utilizado para añadir tareas a la inicialización estándar del recurso Miembros.
+	 */
 	@Override
 	protected void doInit() throws ResourceException{
 		SgaeServerApplication aplicacion = (SgaeServerApplication)getApplication();
 		this.controladorGruposMusicales = aplicacion.getControladorGruposMusicales();
 		this.CIF = getAttribute("grupoMusicalCIF");
 	}
-	
+	/**
+	 * Método que invoca la operación GET sobre el recurso Miembros.
+	 * @return objeto del tipo StringRepresentation que contiene la representación con la informacion
+	 * completa de los miembros del grupo musical clasificados en miembros actuales y miembros anteriores.
+	 * @throws ResourceExcepcion con error CLIENT_ERROR_NOT_FOUND en el caso de que no exista el grupo musical.
+	 */
 	@Get("txt")
-	public StringRepresentation representacionTxt(){
+	public StringRepresentation representacionTxt() throws ResourceException{
 		StringBuilder result = new StringBuilder();
 		try{			
 			for(Persona miembro : this.controladorGruposMusicales.recuperarMiembros(this.CIF)){
@@ -48,9 +64,14 @@ public class MiembrosServerResource extends ServerResource {
 		
 		return new StringRepresentation(result.toString());		
 	}
-	
+	/**
+	 * Método que invoca la operación GET sobre el recurso Miembros.
+	 * @return objeto del tipo Representation que contiene la representación con la informacion
+	 * completa de los miembros del grupo musical clasificados en miembros actuales y miembros anteriores en formato xml.
+	 * @throws ResourceExcepcion con error CLIENT_ERROR_NOT_FOUND en el caso de que no exista el grupo musical.
+	 */
 	@Get("xml")
-	public Representation representacionXML(){
+	public Representation representacionXML() throws ResourceException{
 		MiembrosXML miembrosXml = new MiembrosXML();
 		try {
 			for (Persona miembro: this.controladorGruposMusicales.recuperarMiembros(this.CIF)) {

@@ -11,7 +11,7 @@ import sgae.nucleo.discograficas.InterfazControladorDiscograficas;
 import sgae.nucleo.personas.ControladorPersonas;
 import sgae.nucleo.personas.ExcepcionPersonas;
 import sgae.nucleo.personas.InterfazControladorPersonas;
-import sgae.nucleo.personas.ControladorPersonas;
+
 /**
  * Clase de prueba de la aplicación.
  * @author Eduardo Gómez Sánchez y Manuel Rodríguez Cayetano. ETSIT UVa.
